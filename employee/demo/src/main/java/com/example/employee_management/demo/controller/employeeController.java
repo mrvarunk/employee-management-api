@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -56,6 +57,15 @@ public class employeeController {
         else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<employee> patchEmployee(@PathVariable Long id,@RequestBody Map<String,Object> updates){
+        employee updated=service.patchEmployee(id,updates);
+        if(updated!=null){
+            return ResponseEntity.ok(updated);
+        }
+        else return ResponseEntity.notFound().build();
     }
 
 

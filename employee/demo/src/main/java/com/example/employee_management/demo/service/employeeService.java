@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class employeeService {
@@ -36,4 +38,20 @@ public class employeeService {
         }
         return false;
     }
+
+    public employee patchEmployee(Long id, Map<String, Object> updates){
+        employee existing=repo.findById(id).orElse(null);
+        if(existing==null) return null;
+        updates.forEach((key,value)->{
+            switch (key){
+                case "name": existing.setName((String) value);
+                break;
+                case "department": existing.setDepartment((String) value);
+                break;
+            }
+        });
+    return repo.save(existing);
+    }
+
+
 }
